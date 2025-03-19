@@ -3,7 +3,9 @@ export interface MacBookRecommendation {
   reason: string;
 }
 
-export const getRecommendation = (answers: Record<string, string>): MacBookRecommendation => {
+export const getRecommendation = (
+  answers: Record<string, string>
+): MacBookRecommendation => {
   const { usage, portability, battery } = answers;
 
   if (usage === 'video') {
@@ -17,7 +19,8 @@ export const getRecommendation = (answers: Record<string, string>): MacBookRecom
     if (portability === 'yes') {
       return {
         model: 'MacBook Air 15-inch (M3)',
-        reason: 'Great for portability while offering good performance for coding.',
+        reason:
+          'Great for portability while offering good performance for coding.',
       };
     }
     return {

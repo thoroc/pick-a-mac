@@ -4,9 +4,15 @@ interface Props {
   question: Question;
   onAnswer: (questionId: string, answer: Answer) => void;
   onBack?: () => void;
+  onRestart: () => void; // New restart prop
 }
 
-const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack }) => {
+const QuestionComponent: React.FC<Props> = ({
+  question,
+  onAnswer,
+  onBack,
+  onRestart,
+}) => {
   return (
     <div className="w-full max-w-md p-6 bg-white dark:bg-gray-900 shadow-lg rounded-2xl text-center">
       <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
@@ -26,6 +32,7 @@ const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack }) => {
         ))}
       </div>
 
+      {/* Back Button */}
       {onBack && (
         <button
           onClick={onBack}
@@ -36,16 +43,14 @@ const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack }) => {
         </button>
       )}
 
-      {/* Restart Button */}
-      {onBack && (
-        <button
-          onClick={() => window.location.reload()} // This will restart the flow
-          className="mt-4 px-4 py-2 w-full text-white bg-green-600 rounded-lg 
-                     hover:bg-green-700 active:scale-95 transition-all"
-        >
-          Restart
-        </button>
-      )}
+      {/* Restart Button (Now calls `onRestart`) */}
+      <button
+        onClick={onRestart}
+        className="mt-4 px-4 py-2 w-full text-white bg-green-600 rounded-lg 
+                   hover:bg-green-700 active:scale-95 transition-all"
+      >
+        Restart
+      </button>
     </div>
   );
 };

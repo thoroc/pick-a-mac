@@ -9,6 +9,7 @@ import { Answer, questions } from './flow/questions';
 
 const Home = () => {
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
+  const [started, setStarted] = useState(false); // Track if user started the flow
 
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
@@ -24,14 +25,24 @@ const Home = () => {
           className="dark:invert"
         />
 
-        {/* Question Flow */}
-        <div className="flex-1 max-w-2xl mx-auto">
-          <QuestionFlow onAnswersChange={setAnswers} />
-        </div>
+        {/* Show Button Initially, Start Question Flow on Click */}
+        {!started ? (
+          <button
+            onClick={() => setStarted(true)}
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-medium 
+                       hover:bg-blue-700 active:scale-95 transition-all"
+          >
+            Help me pick a Mac
+          </button>
+        ) : (
+          <div className="flex-1 max-w-2xl mx-auto">
+            <QuestionFlow onAnswersChange={setAnswers} />
+          </div>
+        )}
       </main>
 
-      {/* Sidebar Overlay */}
-      <AnswerSidebar answers={answers} questions={questions} />
+      {/* Sidebar Overlay (Only Show If Started) */}
+      {started && <AnswerSidebar answers={answers} questions={questions} />}
 
       {/* Footer */}
       <Footer />
