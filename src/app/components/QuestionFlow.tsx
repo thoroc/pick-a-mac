@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Answer, questions } from '../flow/questions';
 import { getRecommendation, MacBookRecommendation } from '../flow/recommendations';
-import AnswerSidebar from './AnswerSidebar'; // Import the sidebar
 import QuestionComponent from './Question';
 
-const QuestionFlow = () => {
+const QuestionFlow = ({ onAnswersChange }: { onAnswersChange: (answers: Record<string, Answer>) => void }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
   const [finalRecommendation, setFinalRecommendation] = useState<MacBookRecommendation | null>(null);
@@ -14,6 +13,7 @@ const QuestionFlow = () => {
   const handleAnswer = (questionId: string, answer: Answer) => {
     const updatedAnswers = { ...answers, [questionId]: answer };
     setAnswers(updatedAnswers);
+    onAnswersChange(updatedAnswers); // Notify parent about the updated answers
 
     if (currentIndex === visibleQuestions.length - 1) {
       setFinalRecommendation(getRecommendation(updatedAnswers));
@@ -28,6 +28,7 @@ const QuestionFlow = () => {
     setAnswers({});
     setFinalRecommendation(null);
     setCurrentIndex(0);
+    onAnswersChange({}); // Reset answers in the parent
   };
 
   return (
@@ -58,9 +59,6 @@ const QuestionFlow = () => {
             />
           )}
         </div>
-
-        {/* Sidebar (Fixed to the Right) */}
-        <AnswerSidebar answers={answers} questions={questions} />
       </div>
     </div>
   );
