@@ -11,8 +11,9 @@ const Home = () => {
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 pb-20 gap-12 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col items-center gap-6 w-full max-w-lg">
+    <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
+      {/* Main Content */}
+      <main className="flex flex-col items-center gap-6 w-full max-w-lg mx-auto p-8 sm:p-20 flex-grow">
         {/* Centered Apple Logo */}
         <Image
           src="/apple.svg"
@@ -27,10 +28,12 @@ const Home = () => {
         <div className="flex-1 max-w-2xl mx-auto">
           <QuestionFlow onAnswersChange={setAnswers} />
         </div>
-        {/* Sidebar */}
-        <AnswerSidebar answers={answers} questions={questions} />
       </main>
 
+      {/* Sidebar Overlay */}
+      <AnswerSidebar answers={answers} questions={questions} />
+
+      {/* Footer */}
       <Footer />
     </div>
   );

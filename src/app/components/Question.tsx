@@ -9,7 +9,9 @@ interface Props {
 const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack }) => {
   return (
     <div className="w-full max-w-md p-6 bg-white dark:bg-gray-900 shadow-lg rounded-2xl text-center">
-      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{question.text}</h2>
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        {question.text}
+      </h2>
 
       <div className="flex flex-wrap justify-center gap-2">
         {question.options.map((option) => (
