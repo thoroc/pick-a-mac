@@ -9,9 +9,13 @@ import QuestionComponent from './Question';
 
 interface QuestionFlowProps {
   onAnswersChange: (answers: Record<string, Answer>) => void;
+  onRestart: () => void; // Accept restart function from Home
 }
 
-const QuestionFlow: React.FC<QuestionFlowProps> = ({ onAnswersChange }) => {
+const QuestionFlow: React.FC<QuestionFlowProps> = ({
+  onAnswersChange,
+  onRestart,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
   const [finalRecommendation, setFinalRecommendation] =
@@ -35,13 +39,6 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({ onAnswersChange }) => {
 
   const handleBack = () => setCurrentIndex((prev) => Math.max(0, prev - 1));
 
-  const handleRestart = () => {
-    setAnswers({});
-    setFinalRecommendation(null);
-    setCurrentIndex(0);
-    onAnswersChange({}); // Reset the answers in parent
-  };
-
   return (
     <div className="relative flex justify-center items-start w-full min-h-screen p-8">
       {/* Main Question Section - Always Centered */}
@@ -54,9 +51,9 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({ onAnswersChange }) => {
               {finalRecommendation.reason}
             </p>
 
-            {/* Restart Button (Now calls `handleRestart`) */}
+            {/* Restart Button (Now calls `onRestart`) */}
             <button
-              onClick={handleRestart}
+              onClick={onRestart}
               className="mt-4 px-4 py-2 w-full text-white bg-green-600 rounded-lg hover:bg-green-700 
                          active:scale-95 transition-all"
             >
@@ -68,7 +65,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({ onAnswersChange }) => {
             question={visibleQuestions[currentIndex]}
             onAnswer={handleAnswer}
             onBack={currentIndex > 0 ? handleBack : undefined}
-            onRestart={handleRestart} // Pass restart function
+            onRestart={onRestart} // Pass restart function
           />
         )}
       </div>

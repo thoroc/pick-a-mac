@@ -9,7 +9,12 @@ import { Answer, questions } from './flow/questions';
 
 const Home = () => {
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
-  const [started, setStarted] = useState(false); // Track if user started the flow
+  const [started, setStarted] = useState(false); // Controls visibility of the question flow
+
+  const handleRestart = () => {
+    setAnswers({}); // Reset answers
+    setStarted(false); // Return to entry screen
+  };
 
   return (
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
@@ -36,7 +41,10 @@ const Home = () => {
           </button>
         ) : (
           <div className="flex-1 max-w-2xl mx-auto">
-            <QuestionFlow onAnswersChange={setAnswers} />
+            <QuestionFlow
+              onAnswersChange={setAnswers}
+              onRestart={handleRestart}
+            />
           </div>
         )}
       </main>
