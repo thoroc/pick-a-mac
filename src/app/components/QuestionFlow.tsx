@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { Answer, questions } from '../flow/questions';
-import {
-  getRecommendation,
-  MacBookRecommendation,
-} from '../flow/recommendations';
+import { questions } from '../flow/questions';
+import { getRecommendation, MacBookRecommendation } from '../flow/recommendations';
+import { Answer } from '../flow/types';
 import AnswerSidebar from './AnswerSidebar';
 import QuestionComponent from './Question';
 
@@ -12,18 +10,12 @@ interface QuestionFlowProps {
   onRestart: () => void; // Accept restart function from Home
 }
 
-const QuestionFlow: React.FC<QuestionFlowProps> = ({
-  onAnswersChange,
-  onRestart,
-}) => {
+const QuestionFlow: React.FC<QuestionFlowProps> = ({ onAnswersChange, onRestart }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, Answer>>({});
-  const [finalRecommendation, setFinalRecommendation] =
-    useState<MacBookRecommendation | null>(null);
+  const [finalRecommendation, setFinalRecommendation] = useState<MacBookRecommendation | null>(null);
 
-  const visibleQuestions = questions.filter(
-    (q) => !q.dependsOn || q.dependsOn(answers)
-  );
+  const visibleQuestions = questions.filter((q) => !q.dependsOn || q.dependsOn(answers));
 
   const handleAnswer = (questionId: string, answer: Answer) => {
     const updatedAnswers = { ...answers, [questionId]: answer };
@@ -47,9 +39,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
           <div>
             <h2 className="text-xl font-semibold">Recommended MacBook:</h2>
             <p className="mt-2 font-bold">{finalRecommendation.model}</p>
-            <p className="text-gray-600 dark:text-gray-300">
-              {finalRecommendation.reason}
-            </p>
+            <p className="text-gray-600 dark:text-gray-300">{finalRecommendation.reason}</p>
 
             {/* Restart Button (Now calls `onRestart`) */}
             <button

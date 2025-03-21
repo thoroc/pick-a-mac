@@ -1,11 +1,4 @@
-export type Answer = string;
-
-export interface Question {
-  id: string;
-  text: string;
-  options: { label: string; value: Answer }[];
-  dependsOn?: (answers: Record<string, Answer>) => boolean;
-}
+import { Question } from './types';
 
 export const questions: Question[] = [
   {
@@ -14,8 +7,10 @@ export const questions: Question[] = [
     options: [
       { label: 'Video Editing', value: 'video' },
       { label: 'Programming', value: 'programming' },
+      { label: 'Gaming', value: 'game' },
       { label: 'General Use', value: 'general' },
     ],
+    multipleChoices: true,
   },
   {
     id: 'portability',
