@@ -13,9 +13,6 @@ interface Props {
 }
 
 const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack, onNext, onRestart, selectedAnswers }) => {
-  const selected = selectedAnswers[Number(question.id)]; // Fix indexing issue
-  const hasSelected = selected && selected.length > 0; // Check if user selected an answer
-
   return (
     <div className="question-box">
       <h2 className="question-title">{question.text}</h2>
@@ -36,7 +33,7 @@ const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack, onNext
 
       <div className="flex justify-center gap-4 mt-4">
         {onBack && <BackButton onClick={onBack} />}
-        <NextButton onClick={onNext} multipleChoices={!hasSelected} />
+        <NextButton onClick={onNext} multipleChoices={question.multipleChoices} />
       </div>
 
       <RestartButton onClick={onRestart} />
