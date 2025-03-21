@@ -1,5 +1,6 @@
 import { Answer, Question } from '../flow/types';
 import { BackButton } from './buttons/BackButton';
+import { NextButton } from './buttons/NextButton';
 import { RestartButton } from './buttons/RestartButton';
 
 interface Props {
@@ -12,21 +13,21 @@ interface Props {
 }
 
 const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack, onNext, onRestart, selectedAnswers }) => {
-  return (
-    <div className="w-[600px] p-6 bg-white dark:bg-gray-900 shadow-lg rounded-2xl text-center">
-      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{question.text}</h2>
+  const selected = selectedAnswers[Number(question.id)]; // Fix indexing issue
+  const hasSelected = selected && selected.length > 0; // Check if user selected an answer
 
-      <div className="flex flex-wrap justify-center gap-2">
+  return (
+    <div className="question-box">
+      <h2 className="question-title">{question.text}</h2>
+
+      <div className="answer-buttons">
         {question.options.map((option) => (
           <button
             key={option.value}
             onClick={() => onAnswer(question.id, option.value)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all w-[160px]
-              ${
-                selectedAnswers.includes(option.value)
-                  ? 'bg-blue-800 text-white'
-                  : 'bg-blue-600 text-white hover:bg-blue-700 active:scale-95'
-              }`}
+            className={`answer-button ${
+              option.value === selectedAnswers[Number(question.id)] ? 'bg-blue-800' : 'bg-gray-300'
+            }`}
           >
             {option.label}
           </button>
@@ -35,12 +36,7 @@ const QuestionComponent: React.FC<Props> = ({ question, onAnswer, onBack, onNext
 
       <div className="flex justify-center gap-4 mt-4">
         {onBack && <BackButton onClick={onBack} />}
-        <button
-          onClick={onNext}
-          className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
-        >
-          {question.multipleChoices ? 'Next →' : 'Continue →'}
-        </button>
+        <NextButton onClick={onNext} multipleChoices={!hasSelected} />
       </div>
 
       <RestartButton onClick={onRestart} />

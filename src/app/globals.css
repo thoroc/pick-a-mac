@@ -24,3 +24,64 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ========== General Layout ========== */
+.app-container {
+  @apply flex flex-col min-h-screen font-sans;
+}
+
+.main-content {
+  @apply flex flex-col items-center gap-6 w-full max-w-lg mx-auto p-8 sm:p-20 flex-grow;
+}
+
+/* ========== Question Box ========== */
+.question-box {
+  @apply w-full max-w-2xl p-6 bg-white dark:bg-gray-900 shadow-lg rounded-2xl text-center;
+}
+
+.question-title {
+  @apply text-lg font-semibold text-gray-900 dark:text-white mb-4;
+}
+
+/* ========== Answer Buttons ========== */
+.answer-buttons {
+  @apply flex flex-wrap justify-center gap-2;
+}
+
+.answer-button {
+  @apply px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 active:scale-95 transition-all;
+}
+
+/* ========== Navigation Buttons ========== */
+.back-button {
+  @apply mt-4 px-4 py-2 text-gray-600 dark:text-gray-300 border border-gray-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all;
+}
+
+.start-button {
+  @apply px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-medium hover:bg-blue-700 active:scale-95 transition-all;
+}
+
+.restart-button {
+  @apply mt-4 px-4 py-2 w-full text-white bg-green-600 rounded-lg hover:bg-green-700 active:scale-95 transition-all;
+}
+
+.next-button {
+  @apply mt-4 px-4 py-2 w-full text-white bg-blue-600 rounded-lg hover:bg-blue-700 active:scale-95 transition-all;
+}
+
+/* ========== Sidebar ========== */
+.answer-sidebar {
+  @apply fixed right-0 top-0 h-full w-72 bg-gray-100 dark:bg-gray-800 shadow-lg p-6 hidden lg:block;
+}
+
+.answer-sidebar h3 {
+  @apply text-lg font-semibold mb-4;
+}
+
+.answer-sidebar ul {
+  @apply text-sm text-gray-700 dark:text-gray-300 space-y-2;
+}
+
+.answer-sidebar li {
+  @apply border-b pb-1;
+}
