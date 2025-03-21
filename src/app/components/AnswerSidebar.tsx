@@ -1,17 +1,11 @@
 interface AnswerSidebarProps {
-  answers: Record<string, string>;
+  answers: Record<string, string | string[]>; // Allow multiple-choice answers
   questions: { id: string; text: string }[];
 }
 
-const AnswerSidebar: React.FC<AnswerSidebarProps> = ({
-  answers,
-  questions,
-}) => {
-  // Check if there are any answers to display
-  const hasAnswers = Object.keys(answers).length > 0;
-
-  if (!hasAnswers) {
-    return null; // Do not render the sidebar if there are no answers
+const AnswerSidebar: React.FC<AnswerSidebarProps> = ({ answers, questions }) => {
+  if (Object.keys(answers).length === 0) {
+    return null; // Don't render the sidebar if no answers exist
   }
 
   return (
@@ -19,12 +13,12 @@ const AnswerSidebar: React.FC<AnswerSidebarProps> = ({
       <h3 className="text-lg font-semibold mb-4">Your Answers</h3>
       <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
         {Object.entries(answers).map(([questionId, answer]) => {
-          const questionText =
-            questions.find((q) => q.id === questionId)?.text ||
-            'Unknown question';
+          const questionText = questions.find((q) => q.id === questionId)?.text || 'Unknown question';
+          const formattedAnswer = Array.isArray(answer) ? answer.join(', ') : answer; // Handle multiple-choice answers
+
           return (
             <li key={questionId} className="border-b pb-1">
-              <strong>{questionText}:</strong> {String(answer)}
+              <strong>{questionText}:</strong> {formattedAnswer}
             </li>
           );
         })}
