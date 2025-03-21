@@ -20,12 +20,9 @@ const Home = () => {
 
   return (
     <div className="app-container">
-      {/* Main Content */}
       <main className="main-content">
-        {/* Centered Apple Logo */}
         <Image src="/apple.svg" alt="Apple logo" width={80} height={80} priority className="dark:invert" />
 
-        {/* Show Button Initially, Start Question Flow on Click */}
         {!started ? (
           <StartButton onClick={() => setStarted(true)} />
         ) : (
@@ -35,10 +32,8 @@ const Home = () => {
         )}
       </main>
 
-      {/* Sidebar Overlay (Only Show If Started) */}
       {started && <AnswerSidebar answers={answers} questions={questions} />}
 
-      {/* Footer */}
       <Footer />
     </div>
   );
