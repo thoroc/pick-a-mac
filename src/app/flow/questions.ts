@@ -1,11 +1,4 @@
-export type Answer = string;
-
-export interface Question {
-  id: string;
-  text: string;
-  options: { label: string; value: Answer }[];
-  dependsOn?: (answers: Record<string, Answer>) => boolean;
-}
+import { Question } from './types';
 
 export const questions: Question[] = [
   {
@@ -14,8 +7,21 @@ export const questions: Question[] = [
     options: [
       { label: 'Video Editing', value: 'video' },
       { label: 'Programming', value: 'programming' },
+      { label: 'Gaming', value: 'game' },
       { label: 'General Use', value: 'general' },
     ],
+    multipleChoices: true,
+  },
+  {
+    id: 'preferred_features',
+    text: 'Which features are most important to you?',
+    options: [
+      { label: 'High Performance', value: 'performance' },
+      { label: 'Portability', value: 'portability' },
+      { label: 'Long Battery Life', value: 'battery' },
+      { label: 'Cheaper Price', value: 'price' },
+    ],
+    multipleChoices: true, // Enables multiple selection
   },
   {
     id: 'portability',
@@ -24,7 +30,7 @@ export const questions: Question[] = [
       { label: 'Yes', value: 'yes' },
       { label: 'No', value: 'no' },
     ],
-    dependsOn: (answers) => answers.usage !== 'video', // Only asked if NOT doing video editing
+    dependsOn: (answers) => !answers.usage?.includes('video'),
   },
   {
     id: 'battery',

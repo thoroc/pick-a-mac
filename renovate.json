@@ -1,0 +1,69 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "autoApprove": true,
+  "automerge": true,
+  "automergeStrategy": "squash",
+  "automergeType": "pr",
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true,
+      "automergeStrategy": "squash",
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch-pin-digest"
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "automerge": true,
+      "automergeStrategy": "squash",
+      "groupName": "all non-major dev dependencies",
+      "groupSlug": "all-dev-deps"
+    },
+    {
+      "matchDepTypes": [
+        "dependencies"
+      ],
+      "addLabels": [
+        "dependencies"
+      ]
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "addLabels": [
+        "dev-dependencies"
+      ]
+    },
+    {
+      "matchDepTypes": [
+        "optionalDependencies"
+      ],
+      "addLabels": [
+        "optional-dependencies"
+      ]
+    },
+    {
+      "matchDepTypes": [
+        "peerDependencies"
+      ],
+      "addLabels": [
+        "peer-dependencies"
+      ]
+    }
+  ]
+}
