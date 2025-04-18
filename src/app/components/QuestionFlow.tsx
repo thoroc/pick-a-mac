@@ -7,6 +7,7 @@ import {
 import NavigationFlow from './NavigationFlow';
 import QuestionComponent from './Question';
 import QuestionCard from './QuestionCard';
+import RecommendationCard from './RecommendationCard';
 
 type QuestionFlowProps = {
   questions: Question[];
@@ -61,13 +62,11 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
     <div className="flex justify-center items-center w-full min-h-screen p-8">
       <div className="max-w-2xl w-full">
         {finalRecommendation ? (
-          <QuestionCard onRestart={onRestart}>
-            <h2 className="text-xl font-semibold">Recommended MacBook:</h2>
-            <p className="mt-2 font-bold">{finalRecommendation.model}</p>
-            <p className="text-gray-600 dark:text-gray-300">
-              {finalRecommendation.reason}
-            </p>
-          </QuestionCard>
+          <RecommendationCard
+            model={finalRecommendation.model}
+            reason={finalRecommendation.reason}
+            onRestart={onRestart}
+          />
         ) : (
           <QuestionCard onRestart={onRestart}>
             <QuestionComponent
