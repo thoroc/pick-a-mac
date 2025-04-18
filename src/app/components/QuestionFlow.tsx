@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Answer, questions } from '../flow/questions';
+import React, { useState } from 'react';
+import { Answer, Question } from '../flow/questions';
 import {
   getRecommendation,
   MacBookRecommendation,
@@ -7,37 +7,59 @@ import {
 import AnswerSidebar from './AnswerSidebar';
 import QuestionComponent from './Question';
 
-interface QuestionFlowProps {
-  onAnswersChange: (answers: Record<string, Answer>) => void;
-  onRestart: () => void; // Accept restart function from Home
-}
+type QuestionFlowProps = {
+  questions: Question[];
+  answers: Record<string, Answer>;
+  onAnswersChange: (questionId: string, answer: Answer) => void;
+  onRestart: () => void;
+};
 
 const QuestionFlow: React.FC<QuestionFlowProps> = ({
+  questions,
+  answers,
   onAnswersChange,
   onRestart,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, Answer>>({});
   const [finalRecommendation, setFinalRecommendation] =
     useState<MacBookRecommendation | null>(null);
 
+  // Filter questions based on dependencies
   const visibleQuestions = questions.filter(
     (q) => !q.dependsOn || q.dependsOn(answers)
   );
 
   const handleAnswer = (questionId: string, answer: Answer) => {
+    // Update answers
     const updatedAnswers = { ...answers, [questionId]: answer };
-    setAnswers(updatedAnswers);
-    onAnswersChange(updatedAnswers);
 
+    // Transform answers to match Record<string, string>
+    const stringifiedAnswers: Record<string, string> = Object.fromEntries(
+      Object.entries(updatedAnswers).map(([key, value]) => [
+        key,
+        Array.isArray(value) ? value.join(', ') : String(value), // Convert arrays to comma-separated strings
+      ])
+    );
+
+    onAnswersChange(questionId, answer);
+
+    // Check if it's the last question
     if (currentIndex === visibleQuestions.length - 1) {
-      setFinalRecommendation(getRecommendation(updatedAnswers));
+      try {
+        const recommendation = getRecommendation(stringifiedAnswers); // Pass the transformed object
+        setFinalRecommendation(recommendation);
+      } catch (error) {
+        console.error('Error generating recommendation:', error);
+      }
     } else {
       setCurrentIndex((prev) => prev + 1);
     }
   };
 
-  const handleBack = () => setCurrentIndex((prev) => Math.max(0, prev - 1));
+  const handleBack = () => {
+    // Go back to the previous question
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
+  };
 
   return (
     <div className="relative flex justify-center items-start w-full min-h-screen p-8">
@@ -51,11 +73,12 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
               {finalRecommendation.reason}
             </p>
 
-            {/* Restart Button (Now calls `onRestart`) */}
+            {/* Restart Button */}
             <button
               onClick={onRestart}
-              className="mt-4 px-4 py-2 w-full text-white bg-green-600 rounded-lg hover:bg-green-700 
-                         active:scale-95 transition-all"
+              className="mt-4 px-4 py-2 w-full text-white
+                        bg-green-600 rounded-lg hover:bg-green-700 
+                        active:scale-95 transition-all"
             >
               Restart
             </button>
@@ -65,7 +88,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
             question={visibleQuestions[currentIndex]}
             onAnswer={handleAnswer}
             onBack={currentIndex > 0 ? handleBack : undefined}
-            onRestart={onRestart} // Pass restart function
+            onRestart={onRestart}
           />
         )}
       </div>
