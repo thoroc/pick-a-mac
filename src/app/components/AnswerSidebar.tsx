@@ -1,6 +1,8 @@
+import { Question } from '../flow/questions';
+
 interface AnswerSidebarProps {
   answers: Record<string, string>;
-  questions: { id: string; text: string }[];
+  questions: Question[];
 }
 
 const AnswerSidebar: React.FC<AnswerSidebarProps> = ({
