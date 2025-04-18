@@ -4,6 +4,7 @@ import {
   getRecommendation,
   MacBookRecommendation,
 } from '../flow/recommendations';
+import AnswerSidebar from './AnswerSidebar'; // Import the correct AnswerSidebar component
 import NavigationFlow from './NavigationFlow';
 import QuestionComponent from './Question';
 import QuestionCard from './QuestionCard';
@@ -59,40 +60,44 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
   };
 
   return (
-    <div className="flex justify-center items-center w-full min-h-screen p-8">
-      <div className="max-w-2xl w-full">
-        {finalRecommendation ? (
-          <RecommendationCard
-            model={finalRecommendation.model}
-            reason={finalRecommendation.reason}
-            onRestart={onRestart}
-          />
-        ) : (
-          <QuestionCard onRestart={onRestart}>
-            <QuestionComponent
-              question={visibleQuestions[currentIndex]}
-              currentAnswer={
-                answers[visibleQuestions[currentIndex].id] ||
-                (visibleQuestions[currentIndex].multiple ? [] : '')
-              }
-              onAnswer={handleAnswer}
-            />
+    <div className="relative w-screen h-screen bg-gray-100 dark:bg-gray-800">
+      {/* Answer Sidebar Component */}
+      <AnswerSidebar answers={answers} questions={questions} />
 
-            {/* Navigation Flow */}
-            <NavigationFlow
-              currentIndex={currentIndex}
-              totalQuestions={visibleQuestions.length}
-              onPrevious={handleBack}
-              onNext={handleNext}
-              isNextDisabled={
-                !answers[visibleQuestions[currentIndex].id] ||
-                (visibleQuestions[currentIndex].multiple &&
-                  Array.isArray(answers[visibleQuestions[currentIndex].id]) &&
-                  answers[visibleQuestions[currentIndex].id].length === 0)
-              }
+      {/* Main Content */}
+      <div className="flex justify-center items-center w-full h-full">
+        <div className="max-w-2xl w-full">
+          {finalRecommendation ? (
+            <RecommendationCard
+              model={finalRecommendation.model}
+              reason={finalRecommendation.reason}
+              onRestart={onRestart}
             />
-          </QuestionCard>
-        )}
+          ) : (
+            <QuestionCard onRestart={onRestart}>
+              <QuestionComponent
+                question={visibleQuestions[currentIndex]}
+                currentAnswer={
+                  answers[visibleQuestions[currentIndex].id] ||
+                  (visibleQuestions[currentIndex].multiple ? [] : '')
+                }
+                onAnswer={handleAnswer}
+              />
+              <NavigationFlow
+                currentIndex={currentIndex}
+                totalQuestions={visibleQuestions.length}
+                onPrevious={handleBack}
+                onNext={handleNext}
+                isNextDisabled={
+                  !answers[visibleQuestions[currentIndex].id] ||
+                  (visibleQuestions[currentIndex].multiple &&
+                    Array.isArray(answers[visibleQuestions[currentIndex].id]) &&
+                    answers[visibleQuestions[currentIndex].id].length === 0)
+                }
+              />
+            </QuestionCard>
+          )}
+        </div>
       </div>
     </div>
   );
