@@ -5,14 +5,12 @@ interface Props {
   currentAnswer: Answer; // Add this prop to pass the current answer
   onAnswer: (questionId: string, answer: Answer) => void;
   onBack?: () => void;
-  onRestart: () => void;
 }
 
 const QuestionComponent: React.FC<Props> = ({
   question,
   currentAnswer,
   onAnswer,
-  onRestart,
 }) => {
   const handleOptionChange = (value: string) => {
     if (question.multiple) {
@@ -54,13 +52,6 @@ const QuestionComponent: React.FC<Props> = ({
             </label>
           ))}
         </div>
-        <button
-          onClick={onRestart}
-          className="mt-4 px-4 py-2 text-white bg-green-600 rounded-lg 
-                    hover:bg-green-700 active:scale-95 transition-all"
-        >
-          Restart
-        </button>
       </div>
     </div>
   );

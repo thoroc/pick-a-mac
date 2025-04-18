@@ -62,22 +62,15 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
     <div className="relative flex justify-center items-start w-full min-h-screen p-8">
       <div className="max-w-2xl w-full">
         {finalRecommendation ? (
-          <QuestionCard>
+          <QuestionCard onRestart={onRestart}>
             <h2 className="text-xl font-semibold">Recommended MacBook:</h2>
             <p className="mt-2 font-bold">{finalRecommendation.model}</p>
             <p className="text-gray-600 dark:text-gray-300">
               {finalRecommendation.reason}
             </p>
-            <button
-              onClick={onRestart}
-              className="mt-4 px-4 py-2 w-full text-white bg-green-600 rounded-lg hover:bg-green-700 
-                        active:scale-95 transition-all"
-            >
-              Restart
-            </button>
           </QuestionCard>
         ) : (
-          <QuestionCard>
+          <QuestionCard onRestart={onRestart}>
             <QuestionComponent
               question={visibleQuestions[currentIndex]}
               currentAnswer={
@@ -85,7 +78,6 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
                 (visibleQuestions[currentIndex].multiple ? [] : '')
               }
               onAnswer={handleAnswer}
-              onRestart={onRestart}
             />
 
             {/* Navigation Flow */}
