@@ -30,22 +30,19 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
   );
 
   const handleAnswer = (questionId: string, answer: Answer) => {
-    // Update answers
-    const updatedAnswers = { ...answers, [questionId]: answer };
-
-    // Transform answers to match Record<string, string>
-    const stringifiedAnswers: Record<string, string> = Object.fromEntries(
-      Object.entries(updatedAnswers).map(([key, value]) => [
-        key,
-        Array.isArray(value) ? value.join(', ') : String(value), // Convert arrays to comma-separated strings
-      ])
-    );
-
     onAnswersChange(questionId, answer);
+  };
 
+  const handleNext = () => {
     // Check if it's the last question
     if (currentIndex === visibleQuestions.length - 1) {
       try {
+        const stringifiedAnswers: Record<string, string> = Object.fromEntries(
+          Object.entries(answers).map(([key, value]) => [
+            key,
+            Array.isArray(value) ? value.join(', ') : String(value),
+          ])
+        );
         const recommendation = getRecommendation(stringifiedAnswers); // Pass the transformed object
         setFinalRecommendation(recommendation);
       } catch (error) {
@@ -84,16 +81,40 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
             </button>
           </div>
         ) : (
-          <QuestionComponent
-            question={visibleQuestions[currentIndex]}
-            currentAnswer={
-              answers[visibleQuestions[currentIndex].id] ||
-              (visibleQuestions[currentIndex].multiple ? [] : '')
-            }
-            onAnswer={handleAnswer}
-            onBack={currentIndex > 0 ? handleBack : undefined}
-            onRestart={onRestart}
-          />
+          <>
+            <QuestionComponent
+              question={visibleQuestions[currentIndex]}
+              currentAnswer={
+                answers[visibleQuestions[currentIndex].id] ||
+                (visibleQuestions[currentIndex].multiple ? [] : '')
+              }
+              onAnswer={handleAnswer}
+              onBack={currentIndex > 0 ? handleBack : undefined}
+              onRestart={onRestart}
+            />
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-4">
+              {currentIndex > 0 && (
+                <button
+                  onClick={handleBack}
+                  className="px-4 py-2 text-gray-600 dark:text-gray-300 border border-gray-400 
+                            rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                >
+                  ← Back
+                </button>
+              )}
+              <button
+                onClick={handleNext}
+                className="px-4 py-2 text-white bg-blue-600 rounded-lg 
+                          hover:bg-blue-700 active:scale-95 transition-all"
+              >
+                {currentIndex === visibleQuestions.length - 1
+                  ? 'Finish'
+                  : 'Next'}
+              </button>
+            </div>
+          </>
         )}
       </div>
 

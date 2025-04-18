@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import AnswerSidebar from './components/AnswerSidebar';
 import { Footer } from './components/Footer';
-import HeroCard from './components/HeroCard'; // Import the new HeroCard component
+import HeroCard from './components/HeroCard';
 import QuestionFlow from './components/QuestionFlow';
 import StartButton from './components/StartButton';
 import { Answer, questions } from './flow/questions';
@@ -15,6 +15,13 @@ const Home = () => {
   const handleRestart = () => {
     setAnswers({}); // Reset answers
     setStarted(false); // Return to entry screen
+  };
+
+  const handleAnswersChange = (questionId: string, answer: Answer) => {
+    setAnswers((prevAnswers) => ({
+      ...prevAnswers,
+      [questionId]: answer,
+    }));
   };
 
   return (
@@ -30,7 +37,9 @@ const Home = () => {
         ) : (
           <div className="flex-1 max-w-2xl mx-auto">
             <QuestionFlow
-              onAnswersChange={setAnswers}
+              questions={questions}
+              answers={answers}
+              onAnswersChange={handleAnswersChange}
               onRestart={handleRestart}
             />
           </div>
