@@ -5,9 +5,9 @@ import {
   MacBookRecommendation,
 } from '../flow/recommendations';
 import AnswerSidebar from './AnswerSidebar';
-import Card from './Card';
 import NavigationFlow from './NavigationFlow';
 import QuestionComponent from './Question';
+import QuestionCard from './QuestionCard';
 
 type QuestionFlowProps = {
   questions: Question[];
@@ -62,7 +62,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
     <div className="relative flex justify-center items-start w-full min-h-screen p-8">
       <div className="max-w-2xl w-full">
         {finalRecommendation ? (
-          <Card>
+          <QuestionCard>
             <h2 className="text-xl font-semibold">Recommended MacBook:</h2>
             <p className="mt-2 font-bold">{finalRecommendation.model}</p>
             <p className="text-gray-600 dark:text-gray-300">
@@ -75,9 +75,9 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
             >
               Restart
             </button>
-          </Card>
+          </QuestionCard>
         ) : (
-          <Card>
+          <QuestionCard>
             <QuestionComponent
               question={visibleQuestions[currentIndex]}
               currentAnswer={
@@ -101,7 +101,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
                   answers[visibleQuestions[currentIndex].id].length === 0)
               }
             />
-          </Card>
+          </QuestionCard>
         )}
       </div>
       <AnswerSidebar answers={answers} questions={questions} />
