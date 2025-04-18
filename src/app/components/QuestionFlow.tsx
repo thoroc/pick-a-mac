@@ -89,8 +89,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
                 (visibleQuestions[currentIndex].multiple ? [] : '')
               }
               onAnswer={handleAnswer}
-              onBack={currentIndex > 0 ? handleBack : undefined}
-              onRestart={onRestart}
+              onRestart={onRestart} // Removed onBack from here
             />
 
             {/* Navigation Buttons */}
