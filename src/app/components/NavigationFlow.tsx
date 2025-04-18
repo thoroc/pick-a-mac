@@ -1,4 +1,4 @@
-interface NavigationButtonsProps {
+interface NavigationFlowProps {
   currentIndex: number;
   totalQuestions: number;
   onPrevious: () => void;
@@ -6,7 +6,7 @@ interface NavigationButtonsProps {
   isNextDisabled?: boolean; // Optional prop to disable the "Next" button
 }
 
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({
+const NavigationFlow: React.FC<NavigationFlowProps> = ({
   currentIndex,
   totalQuestions,
   onPrevious,
@@ -41,4 +41,4 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   );
 };
 
-export default NavigationButtons;
+export default NavigationFlow;
