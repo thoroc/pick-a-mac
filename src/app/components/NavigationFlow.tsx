@@ -14,7 +14,7 @@ const NavigationFlow: React.FC<NavigationFlowProps> = ({
   isNextDisabled = false,
 }) => {
   return (
-    <div className="flex justify-between mt-4">
+    <div className="flex justify-center gap-x-4 mt-4">
       {/* Previous Button */}
       {currentIndex > 0 && (
         <button
