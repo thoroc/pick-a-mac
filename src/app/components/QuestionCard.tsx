@@ -7,7 +7,7 @@ interface QuestionCardProps {
 
 const QuestionCard: React.FC<QuestionCardProps> = ({ children, onRestart }) => {
   return (
-    <div className="w-full flex justify-center mt-8">
+    <div className="w-full flex justify-center">
       <div className="relative w-[500px] p-6 bg-white dark:bg-gray-900 shadow-lg rounded-2xl">
         {/* Restart Button */}
         {onRestart && (

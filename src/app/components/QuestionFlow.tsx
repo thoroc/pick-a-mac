@@ -4,7 +4,6 @@ import {
   getRecommendation,
   MacBookRecommendation,
 } from '../flow/recommendations';
-import AnswerSidebar from './AnswerSidebar';
 import NavigationFlow from './NavigationFlow';
 import QuestionComponent from './Question';
 import QuestionCard from './QuestionCard';
@@ -59,7 +58,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
   };
 
   return (
-    <div className="relative flex justify-center items-start w-full min-h-screen p-8">
+    <div className="flex justify-center items-center w-full min-h-screen p-8">
       <div className="max-w-2xl w-full">
         {finalRecommendation ? (
           <QuestionCard onRestart={onRestart}>
@@ -96,7 +95,6 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
           </QuestionCard>
         )}
       </div>
-      <AnswerSidebar answers={answers} questions={questions} />
     </div>
   );
 };
