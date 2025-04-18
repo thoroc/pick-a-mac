@@ -17,7 +17,20 @@ const QuestionCard: React.FC<QuestionCardProps> = ({ children, onRestart }) => {
                       bg-transparent border-none text-xl transition-all"
             title="Restart"
           >
-            🔄
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 15a7.5 7.5 0 101.664-7.197M4.5 4.5v6h6"
+              />
+            </svg>
           </button>
         )}
 
