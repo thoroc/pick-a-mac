@@ -5,6 +5,7 @@ import { useState } from 'react';
 import AnswerSidebar from './components/AnswerSidebar';
 import { Footer } from './components/Footer';
 import QuestionFlow from './components/QuestionFlow';
+import StartButton from './components/StartButton'; // Import the new component
 import { Answer, questions } from './flow/questions';
 
 const Home = () => {
@@ -32,13 +33,7 @@ const Home = () => {
 
         {/* Show Button Initially, Start Question Flow on Click */}
         {!started ? (
-          <button
-            onClick={() => setStarted(true)}
-            className="px-6 py-3 bg-blue-600 text-white rounded-lg text-lg font-medium 
-                       hover:bg-blue-700 active:scale-95 transition-all"
-          >
-            Help me pick a Mac
-          </button>
+          <StartButton onClick={() => setStarted(true)} />
         ) : (
           <div className="flex-1 max-w-2xl mx-auto">
             <QuestionFlow
