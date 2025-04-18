@@ -1,44 +1,90 @@
-export type Answer = string;
+export type Answer = string | string[]; // Updated to support multiple values
 
 export interface Question {
   id: string;
   text: string;
-  options: { label: string; value: Answer }[];
+  options: { label: string; value: string }[];
+  multiple?: boolean; // Indicates if multiple values can be selected
   dependsOn?: (answers: Record<string, Answer>) => boolean;
 }
 
-// Do you absolutely need a Mac?
-// If you're not sure, you can answer "No" to see the recommendations.
-// Do you need to have 120Hz refresh rate?
-// If you're not sure, you can answer "No" to see the recommendations.
-// Do you need to run a local LLM?
-// If you're not sure, you can answer "No" to see the recommendations.
-
 export const questions: Question[] = [
+  // Base Questions (Single Selection)
   {
-    id: 'usage',
-    text: 'What will you use your Mac for?',
+    id: "portability",
+    text: "How important is portability (lightweight design) to you?",
     options: [
-      { label: 'Video Editing', value: 'video' },
-      { label: 'Programming', value: 'programming' },
-      { label: 'General Use', value: 'general' },
+      { label: "Very Important", value: "high" },
+      { label: "Somewhat Important", value: "medium" },
+      { label: "Not Important", value: "low" },
     ],
+    multiple: false, // Single selection
   },
   {
-    id: 'portability',
-    text: 'Do you need a lightweight MacBook?',
+    id: "affordability",
+    text: "How important is affordability (price) to you?",
     options: [
-      { label: 'Yes', value: 'yes' },
-      { label: 'No', value: 'no' },
+      { label: "Very Important", value: "high" },
+      { label: "Somewhat Important", value: "medium" },
+      { label: "Not Important", value: "low" },
     ],
-    dependsOn: (answers) => answers.usage !== 'video', // Only asked if NOT doing video editing
+    multiple: false, // Single selection
   },
   {
-    id: 'battery',
-    text: 'Do you need long battery life?',
+    id: "support",
+    text: "How important is the longest support life (age) to you?",
     options: [
-      { label: 'Yes', value: 'yes' },
-      { label: 'No', value: 'no' },
+      { label: "Very Important", value: "high" },
+      { label: "Somewhat Important", value: "medium" },
+      { label: "Not Important", value: "low" },
     ],
+    multiple: false, // Single selection
+  },
+  {
+    id: "battery",
+    text: "How important is endurance (battery life) to you?",
+    options: [
+      { label: "Very Important", value: "high" },
+      { label: "Somewhat Important", value: "medium" },
+      { label: "Not Important", value: "low" },
+    ],
+    multiple: false, // Single selection
+  },
+  {
+    id: "performance",
+    text: "How important is raw power (CPU/GPU) to you?",
+    options: [
+      { label: "Very Important", value: "high" },
+      { label: "Somewhat Important", value: "medium" },
+      { label: "Not Important", value: "low" },
+    ],
+    multiple: false, // Single selection
+  },
+  {
+    id: "workload",
+    text: "How important is handling heavy workloads (RAM) to you?",
+    options: [
+      { label: "Very Important", value: "high" },
+      { label: "Somewhat Important", value: "medium" },
+      { label: "Not Important", value: "low" },
+    ],
+    multiple: false, // Single selection
+  },
+
+  // Activity Questions (Multiple Selection)
+  {
+    id: "activity",
+    text: "What type of activity will you primarily use the Mac for?",
+    options: [
+      { label: "3D / Video / Audio Editing", value: "editing" },
+      { label: "Computer Programming", value: "programming" },
+      { label: "AI / LLM / Data Science", value: "ai" },
+      { label: "General Web Browsing", value: "browsing" },
+      { label: "Media Consumption", value: "media" },
+      { label: "Mostly Docked", value: "docked" },
+      { label: "Mostly On the Go", value: "on-the-go" },
+      { label: "Video Games", value: "gaming" },
+    ],
+    multiple: true, // Multiple selection
   },
 ];
