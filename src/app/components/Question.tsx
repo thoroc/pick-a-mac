@@ -2,6 +2,7 @@ import { Answer, Question } from '../flow/questions';
 
 interface Props {
   question: Question;
+  currentAnswer: Answer; // Add this prop to pass the current answer
   onAnswer: (questionId: string, answer: Answer) => void;
   onBack?: () => void;
   onRestart: () => void;
@@ -9,10 +10,25 @@ interface Props {
 
 const QuestionComponent: React.FC<Props> = ({
   question,
+  currentAnswer,
   onAnswer,
   onBack,
   onRestart,
 }) => {
+  const handleOptionChange = (value: string) => {
+    if (question.multiple) {
+      // Handle multiple selection
+      const currentAnswers = Array.isArray(currentAnswer) ? currentAnswer : [];
+      const updatedAnswers = currentAnswers.includes(value)
+        ? currentAnswers.filter((answer) => answer !== value) // Remove if already selected
+        : [...currentAnswers, value]; // Add if not selected
+      onAnswer(question.id, updatedAnswers);
+    } else {
+      // Handle single selection
+      onAnswer(question.id, value);
+    }
+  };
+
   return (
     <div className="w-full flex justify-center mt-8">
       <div className="w-[500px] p-6 bg-white dark:bg-gray-900 shadow-lg rounded-2xl text-center">
@@ -21,17 +37,27 @@ const QuestionComponent: React.FC<Props> = ({
           {question.text}
         </h2>
 
-        {/* Buttons in a Single Row */}
-        <div className="flex justify-center gap-4">
+        {/* Options */}
+        <div className="flex flex-col gap-4">
           {question.options.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => onAnswer(question.id, option.value)}
-              className="px-6 py-3 w-[150px] rounded-lg bg-blue-600 text-white text-sm font-medium 
-                        hover:bg-blue-700 active:scale-95 transition-all"
-            >
-              {option.label}
-            </button>
+            <label key={option.value} className="flex items-center gap-2">
+              <input
+                type={question.multiple ? 'checkbox' : 'radio'}
+                name={question.id}
+                value={option.value}
+                checked={
+                  question.multiple
+                    ? Array.isArray(currentAnswer) &&
+                      currentAnswer.includes(option.value)
+                    : currentAnswer === option.value
+                }
+                onChange={() => handleOptionChange(option.value)}
+                className="form-checkbox h-5 w-5 text-blue-600"
+              />
+              <span className="text-gray-900 dark:text-white">
+                {option.label}
+              </span>
+            </label>
           ))}
         </div>
 

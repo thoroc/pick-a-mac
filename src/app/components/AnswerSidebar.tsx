@@ -1,7 +1,7 @@
-import { Question } from '../flow/questions';
+import { Answer, Question } from '../flow/questions';
 
 interface AnswerSidebarProps {
-  answers: Record<string, string>;
+  answers: Record<string, Answer>;
   questions: Question[];
 }
 

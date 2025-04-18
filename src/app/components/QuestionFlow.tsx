@@ -86,6 +86,10 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
         ) : (
           <QuestionComponent
             question={visibleQuestions[currentIndex]}
+            currentAnswer={
+              answers[visibleQuestions[currentIndex].id] ||
+              (visibleQuestions[currentIndex].multiple ? [] : '')
+            }
             onAnswer={handleAnswer}
             onBack={currentIndex > 0 ? handleBack : undefined}
             onRestart={onRestart}
