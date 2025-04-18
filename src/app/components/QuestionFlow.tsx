@@ -5,6 +5,7 @@ import {
   MacBookRecommendation,
 } from '../flow/recommendations';
 import AnswerSidebar from './AnswerSidebar';
+import NavigationButtons from './NavigationButtons';
 import QuestionComponent from './Question';
 
 type QuestionFlowProps = {
@@ -34,7 +35,6 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
   };
 
   const handleNext = () => {
-    // Check if it's the last question
     if (currentIndex === visibleQuestions.length - 1) {
       try {
         const stringifiedAnswers: Record<string, string> = Object.fromEntries(
@@ -43,7 +43,7 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
             Array.isArray(value) ? value.join(', ') : String(value),
           ])
         );
-        const recommendation = getRecommendation(stringifiedAnswers); // Pass the transformed object
+        const recommendation = getRecommendation(stringifiedAnswers);
         setFinalRecommendation(recommendation);
       } catch (error) {
         console.error('Error generating recommendation:', error);
@@ -54,13 +54,11 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
   };
 
   const handleBack = () => {
-    // Go back to the previous question
     setCurrentIndex((prev) => Math.max(0, prev - 1));
   };
 
   return (
     <div className="relative flex justify-center items-start w-full min-h-screen p-8">
-      {/* Main Question Section - Always Centered */}
       <div className="max-w-2xl w-full">
         {finalRecommendation ? (
           <div>
@@ -69,12 +67,9 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
             <p className="text-gray-600 dark:text-gray-300">
               {finalRecommendation.reason}
             </p>
-
-            {/* Restart Button */}
             <button
               onClick={onRestart}
-              className="mt-4 px-4 py-2 w-full text-white
-                        bg-green-600 rounded-lg hover:bg-green-700 
+              className="mt-4 px-4 py-2 w-full text-white bg-green-600 rounded-lg hover:bg-green-700 
                         active:scale-95 transition-all"
             >
               Restart
@@ -89,35 +84,25 @@ const QuestionFlow: React.FC<QuestionFlowProps> = ({
                 (visibleQuestions[currentIndex].multiple ? [] : '')
               }
               onAnswer={handleAnswer}
-              onRestart={onRestart} // Removed onBack from here
+              onRestart={onRestart}
             />
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between mt-4">
-              {currentIndex > 0 && (
-                <button
-                  onClick={handleBack}
-                  className="px-4 py-2 text-gray-600 dark:text-gray-300 border border-gray-400 
-                            rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
-                >
-                  ← Back
-                </button>
-              )}
-              <button
-                onClick={handleNext}
-                className="px-4 py-2 text-white bg-blue-600 rounded-lg 
-                          hover:bg-blue-700 active:scale-95 transition-all"
-              >
-                {currentIndex === visibleQuestions.length - 1
-                  ? 'Finish'
-                  : 'Next'}
-              </button>
-            </div>
+            <NavigationButtons
+              currentIndex={currentIndex}
+              totalQuestions={visibleQuestions.length}
+              onPrevious={handleBack}
+              onNext={handleNext}
+              isNextDisabled={
+                !answers[visibleQuestions[currentIndex].id] ||
+                (visibleQuestions[currentIndex].multiple &&
+                  Array.isArray(answers[visibleQuestions[currentIndex].id]) &&
+                  answers[visibleQuestions[currentIndex].id].length === 0)
+              }
+            />
           </>
         )}
       </div>
-
-      {/* Sidebar (Pinned to the Right) */}
       <AnswerSidebar answers={answers} questions={questions} />
     </div>
   );
