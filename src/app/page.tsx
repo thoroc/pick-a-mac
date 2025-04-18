@@ -6,7 +6,8 @@ import { Footer } from './components/Footer';
 import HeroCard from './components/HeroCard';
 import QuestionFlow from './components/QuestionFlow';
 import StartButton from './components/StartButton';
-import { Answer, questions } from './flow/questions';
+import { questions } from './flow/questions';
+import { Answer } from './flow/types';
 
 const Home = () => {
   const [answers, setAnswers] = useState<Record<string, Answer>>({});

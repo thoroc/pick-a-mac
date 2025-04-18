@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Answer, Question } from '../flow/questions';
 import {
   getRecommendation,
   MacBookRecommendation,
 } from '../flow/recommendations';
+import { Answer, Question } from '../flow/types';
 import NavigationFlow from './NavigationFlow';
 import QuestionComponent from './Question';
 import QuestionCard from './QuestionCard';
