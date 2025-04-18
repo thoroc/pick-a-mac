@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import AnswerSidebar from './components/AnswerSidebar';
 import { Footer } from './components/Footer';
+import HeroCard from './components/HeroCard'; // Import the new HeroCard component
 import QuestionFlow from './components/QuestionFlow';
-import StartButton from './components/StartButton'; // Import the new component
+import StartButton from './components/StartButton';
 import { Answer, questions } from './flow/questions';
 
 const Home = () => {
@@ -21,15 +21,8 @@ const Home = () => {
     <div className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
       {/* Main Content */}
       <main className="flex flex-col items-center gap-6 w-full max-w-lg mx-auto p-8 sm:p-20 flex-grow">
-        {/* Centered Apple Logo */}
-        <Image
-          src="/apple.svg"
-          alt="Apple logo"
-          width={80}
-          height={80}
-          priority
-          className="dark:invert"
-        />
+        {/* Hero Card */}
+        <HeroCard />
 
         {/* Show Button Initially, Start Question Flow on Click */}
         {!started ? (
