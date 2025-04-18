@@ -10,7 +10,7 @@ export const getRecommendation = (
 
   if (usage === 'video') {
     return {
-      model: 'MacBook Pro 16-inch (M3 Max)',
+      model: 'MacBook Pro 16-inch (M4 Max)',
       reason: 'Best for video editing with high performance and large screen.',
     };
   }
@@ -18,13 +18,13 @@ export const getRecommendation = (
   if (usage === 'programming') {
     if (portability === 'yes') {
       return {
-        model: 'MacBook Air 15-inch (M3)',
+        model: 'MacBook Air 15-inch (M4)',
         reason:
           'Great for portability while offering good performance for coding.',
       };
     }
     return {
-      model: 'MacBook Pro 14-inch (M3 Pro)',
+      model: 'MacBook Pro 14-inch (M4 Pro)',
       reason: 'Balances power and portability for developers.',
     };
   }
@@ -32,18 +32,18 @@ export const getRecommendation = (
   if (usage === 'general') {
     if (battery === 'yes') {
       return {
-        model: 'MacBook Air 13-inch (M3)',
+        model: 'MacBook Air 13-inch (M4)',
         reason: 'Best for general use with long battery life.',
       };
     }
     return {
-      model: 'MacBook Pro 14-inch (M3)',
+      model: 'MacBook Pro 14-inch (M4)',
       reason: 'Slightly more powerful for general tasks.',
     };
   }
 
   return {
-    model: 'MacBook Air 13-inch (M2)',
+    model: 'MacBook Air 13-inch (M4)',
     reason: 'A budget-friendly option for everyday tasks.',
   };
 };
